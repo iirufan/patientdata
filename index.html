@@ -1,90 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
+<button
+  type="submit"
+  class="primary-btn"
 >
+  Login
+</button>
 
-<title>Patient History | Login</title>
+<div
+  id="loginMessage"
+  class="message"
+></div>
 
-<link rel="stylesheet" href="css/app.css">
+<div class="register-link">
 
-</head>
+  <span>
+    Don't have an account?
+  </span>
 
-<body class="login-page">
-
-<div class="login-wrapper">
-
-  <div class="login-card">
-
-    <div class="brand-icon">
-      +
-    </div>
-
-    <h1>Patient History</h1>
-
-    <p class="subtitle">
-      Clinical Patient Record System
-    </p>
-
-    <form id="loginForm">
-
-      <div class="form-group">
-
-        <label>Email</label>
-
-        <input
-          type="email"
-          id="email"
-          required
-          autocomplete="username"
-          placeholder="Doctor email"
-        >
-
-      </div>
-
-      <div class="form-group">
-
-        <label>Password</label>
-
-        <input
-          type="password"
-          id="password"
-          required
-          autocomplete="current-password"
-          placeholder="Password"
-        >
-
-      </div>
-
-      <button
-        type="submit"
-        class="primary-btn"
-      >
-        Login
-      </button>
-
-      <div
-        id="loginMessage"
-        class="message"
-      ></div>
-
-    </form>
-
-  </div>
+  <a href="register.html">
+    Register
+  </a>
 
 </div>
-
-<script
-  type="module"
-  src="js/auth.js"
-></script>
-
-</body>
-
-</html>
