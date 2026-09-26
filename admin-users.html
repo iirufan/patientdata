@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  >
+
+  <title>User Management | Patient History</title>
+
+  <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+  <div class="nav-brand">
+    Patient History
+  </div>
+
+  <div class="nav-actions">
+
+    <button
+      class="nav-btn"
+      onclick="location.href='dashboard.html'"
+    >
+      Dashboard
+    </button>
+
+    <button
+      id="logoutBtn"
+      class="nav-btn"
+    >
+      Logout
+    </button>
+
+  </div>
+
+</nav>
+
+
+<main class="container">
+
+  <div class="page-title">
+
+    <h1>User Management</h1>
+
+    <p>
+      Register and manage doctors and other authorized users.
+    </p>
+
+  </div>
+
+
+  <div class="user-admin-layout">
+
+    <!-- REGISTER USER -->
+
+    <section class="card">
+
+      <h2 style="margin-top:0;">
+        Register User
+      </h2>
+
+      <form id="userForm">
+
+        <div class="grid-2">
+
+          <div class="form-group">
+
+            <label>
+              Full Name *
+            </label>
+
+            <input
+              id="fullName"
+              required
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Email *
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              required
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Contact No.
+            </label>
+
+            <input
+              id="contact"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Registration / License No.
+            </label>
+
+            <input
+              id="licenseNo"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Specialty
+            </label>
+
+            <input
+              id="specialty"
+              placeholder="e.g. General Medicine"
+              autocomplete="off"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Role *
+            </label>
+
+            <select
+              id="role"
+              required
+            >
+
+              <option value="doctor">
+                Doctor
+              </option>
+
+              <option value="nurse">
+                Nurse
+              </option>
+
+              <option value="reception">
+                Reception
+              </option>
+
+              <option value="admin">
+                Administrator
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Temporary Password *
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              minlength="8"
+              required
+              autocomplete="new-password"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Confirm Password *
+            </label>
+
+            <input
+              id="confirmPassword"
+              type="password"
+              minlength="8"
+              required
+              autocomplete="new-password"
+            >
+
+          </div>
+
+        </div>
+
+
+        <button
+          id="registerBtn"
+          type="submit"
+          class="primary-btn"
+        >
+          Register User
+        </button>
+
+
+        <div
+          id="formMessage"
+          class="message"
+        ></div>
+
+      </form>
+
+    </section>
+
+
+    <!-- USERS -->
+
+    <section class="card">
+
+      <div class="users-heading">
+
+        <div>
+
+          <h2 style="margin:0;">
+            Registered Users
+          </h2>
+
+          <p>
+            Authorized system users
+          </p>
+
+        </div>
+
+        <input
+          id="userSearch"
+          class="user-search"
+          placeholder="Search users..."
+        >
+
+      </div>
+
+
+      <div id="usersList">
+
+        Loading users...
+
+      </div>
+
+    </section>
+
+  </div>
+
+</main>
+
+
+<script
+  type="module"
+  src="js/admin-users.js"
+></script>
+
+</body>
+
+</html>

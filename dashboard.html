@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#087f7c"
+  >
+
+  <title>
+    Patient History | Dashboard
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/app.css"
+  >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     NAVIGATION
+========================================================= -->
+
+<nav class="navbar">
+
+  <div class="nav-brand">
+
+    Patient History
+
+  </div>
+
+
+  <div class="nav-actions">
+
+
+    <!-- REGISTER PATIENT -->
+
+    <button
+      type="button"
+      class="nav-btn"
+      onclick="location.href='register-patient.html'"
+    >
+
+      + Register Patient
+
+    </button>
+
+
+    <!-- USER MANAGEMENT -->
+
+    <button
+      type="button"
+      id="userManagementBtn"
+      class="nav-btn"
+      onclick="location.href='admin-users.html'"
+    >
+
+      User Management
+
+    </button>
+
+
+    <!-- LOGOUT -->
+
+    <button
+      type="button"
+      id="logoutBtn"
+      class="nav-btn"
+    >
+
+      Logout
+
+    </button>
+
+
+  </div>
+
+</nav>
+
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================= -->
+
+<main class="container">
+
+
+  <!-- =======================================================
+       PAGE TITLE
+  ======================================================== -->
+
+  <div class="page-title">
+
+    <h1>
+      Patient Records
+    </h1>
+
+    <p>
+      Search and access patient clinical records.
+    </p>
+
+  </div>
+
+
+
+  <!-- =======================================================
+       QUICK SUMMARY
+  ======================================================== -->
+
+  <div class="dashboard-summary">
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+
+        👥
+
+      </div>
+
+
+      <div>
+
+        <div
+          class="summary-number"
+          id="totalPatients"
+        >
+
+          —
+
+        </div>
+
+        <div class="summary-label">
+
+          Total Patients
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="summary-card">
+
+      <div class="summary-icon">
+
+        🔎
+
+      </div>
+
+
+      <div>
+
+        <div
+          class="summary-number"
+          id="visiblePatients"
+        >
+
+          —
+
+        </div>
+
+        <div class="summary-label">
+
+          Search Results
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <div
+      class="summary-card summary-action"
+      onclick="location.href='register-patient.html'"
+      tabindex="0"
+      role="button"
+    >
+
+      <div class="summary-icon">
+
+        ＋
+
+      </div>
+
+
+      <div>
+
+        <div class="summary-action-title">
+
+          New Patient
+
+        </div>
+
+        <div class="summary-label">
+
+          Register patient record
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =======================================================
+       SEARCH
+  ======================================================== -->
+
+  <section class="card search-card">
+
+
+    <div class="search-heading">
+
+      <div>
+
+        <h2>
+          Find Patient
+        </h2>
+
+        <p>
+          Search using patient name, ID/passport,
+          contact number, email or country.
+        </p>
+
+      </div>
+
+    </div>
+
+
+
+    <div class="dashboard-search-grid">
+
+
+      <!-- SEARCH -->
+
+      <div class="search-main">
+
+        <label for="patientSearch">
+
+          Search Patient
+
+        </label>
+
+
+        <div class="search-input-wrapper">
+
+          <span class="search-icon">
+
+            🔎
+
+          </span>
+
+
+          <input
+            type="search"
+            id="patientSearch"
+            autocomplete="off"
+            placeholder="Name, ID/Passport, contact, email..."
+          >
+
+        </div>
+
+      </div>
+
+
+
+      <!-- FROM DATE -->
+
+      <div>
+
+        <label for="fromDate">
+
+          Registered From
+
+        </label>
+
+        <input
+          type="date"
+          id="fromDate"
+        >
+
+      </div>
+
+
+
+      <!-- TO DATE -->
+
+      <div>
+
+        <label for="toDate">
+
+          Registered To
+
+        </label>
+
+        <input
+          type="date"
+          id="toDate"
+        >
+
+      </div>
+
+
+
+      <!-- CLEAR -->
+
+      <div class="clear-filter-container">
+
+        <label>
+          &nbsp;
+        </label>
+
+        <button
+          type="button"
+          id="clearFiltersBtn"
+          class="secondary-btn dashboard-clear-btn"
+        >
+
+          Clear
+
+        </button>
+
+      </div>
+
+
+    </div>
+
+
+    <div class="filter-note">
+
+      Date filters on this page refer to the patient's
+      registration date. Clinical history has its own
+      encounter/report date search.
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- =======================================================
+       PATIENT LIST HEADER
+  ======================================================== -->
+
+  <div class="patient-results-heading">
+
+
+    <div>
+
+      <h2>
+        Patients
+      </h2>
+
+      <p id="resultsDescription">
+
+        Loading patient records...
+
+      </p>
+
+    </div>
+
+
+    <button
+      type="button"
+      class="secondary-btn"
+      onclick="location.href='register-patient.html'"
+    >
+
+      + Add Patient
+
+    </button>
+
+
+  </div>
+
+
+
+  <!-- =======================================================
+       PATIENT RESULTS
+  ======================================================== -->
+
+  <section
+    id="patientResults"
+    aria-live="polite"
+  >
+
+
+    <div class="card">
+
+      <div class="dashboard-loading">
+
+        <div class="loading-spinner"></div>
+
+        <div>
+
+          Loading patients...
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </section>
+
+
+</main>
+
+
+
+<!-- =========================================================
+     DASHBOARD SCRIPT
+========================================================= -->
+
+<script
+  type="module"
+  src="js/dashboard.js"
+></script>
+
+
+
+<!-- =========================================================
+     DASHBOARD UI HELPERS
+========================================================= -->
+
+<script>
+
+  /*
+   * Clear button only resets the fields.
+   *
+   * dashboard.js listens to the input/change events
+   * and performs the actual patient filtering.
+   */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      const clearBtn =
+        document.getElementById(
+          "clearFiltersBtn"
+        );
+
+
+      const search =
+        document.getElementById(
+          "patientSearch"
+        );
+
+
+      const fromDate =
+        document.getElementById(
+          "fromDate"
+        );
+
+
+      const toDate =
+        document.getElementById(
+          "toDate"
+        );
+
+
+      clearBtn?.addEventListener(
+        "click",
+        () => {
+
+          search.value = "";
+
+          fromDate.value = "";
+
+          toDate.value = "";
+
+
+          /*
+           * Trigger events so dashboard.js
+           * updates the result immediately.
+           */
+
+          search.dispatchEvent(
+            new Event(
+              "input",
+              {
+                bubbles: true
+              }
+            )
+          );
+
+
+          fromDate.dispatchEvent(
+            new Event(
+              "change",
+              {
+                bubbles: true
+              }
+            )
+          );
+
+
+          toDate.dispatchEvent(
+            new Event(
+              "change",
+              {
+                bubbles: true
+              }
+            )
+          );
+
+
+          search.focus();
+
+        }
+      );
+
+    }
+  );
+
+</script>
+
+
+</body>
+
+</html>

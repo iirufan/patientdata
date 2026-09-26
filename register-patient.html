@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1"
+>
+
+<title>Register Patient</title>
+
+<link
+  rel="stylesheet"
+  href="css/app.css"
+>
+
+</head>
+
+<body>
+
+
+<nav class="navbar">
+
+<div class="nav-brand">
+Patient Registration
+</div>
+
+<div>
+
+<button
+class="nav-btn"
+onclick="location.href='dashboard.html'"
+>
+Dashboard
+</button>
+
+</div>
+
+</nav>
+
+
+<main class="container">
+
+
+<div class="page-title">
+
+<h1>Register Patient</h1>
+
+<p>
+Create a new patient clinical record.
+</p>
+
+</div>
+
+
+<form
+id="patientForm"
+class="card"
+>
+
+
+<h3>Patient Information</h3>
+
+
+<div class="grid-3">
+
+
+<div>
+
+<label>
+Full Name *
+</label>
+
+<input
+id="fullName"
+required
+>
+
+</div>
+
+
+<div>
+
+<label>
+ID Card / Passport No *
+</label>
+
+<input
+id="idNumber"
+required
+>
+
+</div>
+
+
+<div>
+
+<label>
+Date of Birth
+</label>
+
+<input
+type="date"
+id="dob"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Sex
+</label>
+
+<select id="sex">
+
+<option value="">
+Select
+</option>
+
+<option>
+Male
+</option>
+
+<option>
+Female
+</option>
+
+<option>
+Other
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Country
+</label>
+
+<input id="country">
+
+</div>
+
+
+<div>
+
+<label>
+Contact No.
+</label>
+
+<input id="contact">
+
+</div>
+
+
+<div>
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+id="email"
+>
+
+</div>
+
+
+<div>
+
+<label>
+Blood Group
+</label>
+
+<select id="bloodGroup">
+
+<option value="">
+Unknown
+</option>
+
+<option>A+</option>
+<option>A-</option>
+<option>B+</option>
+<option>B-</option>
+<option>AB+</option>
+<option>AB-</option>
+<option>O+</option>
+<option>O-</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>
+Emergency Contact
+</label>
+
+<input id="emergencyContact">
+
+</div>
+
+
+</div>
+
+
+<div style="margin-top:18px">
+
+<label>
+Address
+</label>
+
+<textarea
+id="address"
+></textarea>
+
+</div>
+
+
+<h3>
+Medical Summary
+</h3>
+
+
+<div class="grid-2">
+
+
+<div>
+
+<label>
+Known Allergies
+</label>
+
+<textarea
+id="allergies"
+placeholder="Medication, food or other known allergies"
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>
+Current Medications
+</label>
+
+<textarea
+id="medications"
+placeholder="Current medication and dosage if known"
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>
+Chronic / Existing Conditions
+</label>
+
+<textarea
+id="conditions"
+placeholder="Diabetes, hypertension, asthma..."
+></textarea>
+
+</div>
+
+
+<div>
+
+<label>
+Past Surgical / Significant Medical History
+</label>
+
+<textarea
+id="pastHistory"
+></textarea>
+
+</div>
+
+
+</div>
+
+
+<div style="margin-top:25px">
+
+<button
+type="submit"
+class="primary-btn"
+>
+Register Patient
+</button>
+
+</div>
+
+
+<div
+id="message"
+class="message"
+></div>
+
+
+</form>
+
+
+</main>
+
+
+<script
+type="module"
+src="js/register-patient.js"
+></script>
+
+
+</body>
+
+</html>
