@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#087f7c"
+  >
+
+  <title>
+    Register | Patient History
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/app.css"
+  >
+</head>
+
+
+<body class="login-page">
+
+
+<div class="login-wrapper">
+
+  <div
+    class="login-card"
+    style="max-width:650px;"
+  >
+
+
+    <!-- LOGO -->
+
+    <div class="brand-icon">
+      +
+    </div>
+
+
+    <!-- TITLE -->
+
+    <h1>
+      User Registration
+    </h1>
+
+    <p class="subtitle">
+      Patient History Clinical Record System
+    </p>
+
+
+
+    <!-- FORM -->
+
+    <form id="registerForm">
+
+
+      <!-- FULL NAME -->
+
+      <div class="form-group">
+
+        <label for="fullName">
+          Full Name *
+        </label>
+
+        <input
+          type="text"
+          id="fullName"
+          required
+          autocomplete="name"
+          placeholder="Enter your full name"
+        >
+
+      </div>
+
+
+
+      <!-- EMAIL -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email *
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          required
+          autocomplete="email"
+          placeholder="Enter your email"
+        >
+
+      </div>
+
+
+
+      <!-- CONTACT -->
+
+      <div class="form-group">
+
+        <label for="contact">
+          Contact Number
+        </label>
+
+        <input
+          type="tel"
+          id="contact"
+          autocomplete="tel"
+          placeholder="Contact number"
+        >
+
+      </div>
+
+
+
+      <!-- LICENSE -->
+
+      <div class="form-group">
+
+        <label for="licenseNo">
+          Registration / License No.
+        </label>
+
+        <input
+          type="text"
+          id="licenseNo"
+          autocomplete="off"
+          placeholder="Medical registration / license number"
+        >
+
+      </div>
+
+
+
+      <!-- SPECIALTY -->
+
+      <div class="form-group">
+
+        <label for="specialty">
+          Specialty
+        </label>
+
+        <input
+          type="text"
+          id="specialty"
+          autocomplete="off"
+          placeholder="e.g. General Medicine"
+        >
+
+      </div>
+
+
+
+      <!-- PASSWORD -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password *
+        </label>
+
+        <input
+          type="password"
+          id="password"
+          minlength="8"
+          required
+          autocomplete="new-password"
+          placeholder="Minimum 8 characters"
+        >
+
+      </div>
+
+
+
+      <!-- CONFIRM PASSWORD -->
+
+      <div class="form-group">
+
+        <label for="confirmPassword">
+          Confirm Password *
+        </label>
+
+        <input
+          type="password"
+          id="confirmPassword"
+          minlength="8"
+          required
+          autocomplete="new-password"
+          placeholder="Enter password again"
+        >
+
+      </div>
+
+
+
+      <!-- REGISTER -->
+
+      <button
+        type="submit"
+        id="registerBtn"
+        class="primary-btn"
+      >
+        Register
+      </button>
+
+
+
+      <!-- MESSAGE -->
+
+      <div
+        id="registerMessage"
+        class="message"
+      ></div>
+
+
+
+      <!-- LOGIN LINK -->
+
+      <p
+        style="
+          text-align:center;
+          margin-top:20px;
+          font-size:14px;
+          color:#667085;
+        "
+      >
+
+        Already have an account?
+
+        <a
+          href="index.html"
+          style="
+            color:#087f7c;
+            font-weight:700;
+            text-decoration:none;
+          "
+        >
+          Login
+        </a>
+
+      </p>
+
+
+    </form>
+
+
+  </div>
+
+</div>
+
+
+<script
+  type="module"
+  src="js/register.js"
+></script>
+
+
+</body>
+
+</html>
