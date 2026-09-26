@@ -1,23 +1,189 @@
-<button
-  type="submit"
-  class="primary-btn"
->
-  Login
-</button>
+```html
+<!DOCTYPE html>
+<html lang="en">
 
-<div
-  id="loginMessage"
-  class="message"
-></div>
+<head>
 
-<div class="register-link">
+  <meta charset="UTF-8">
 
-  <span>
-    Don't have an account?
-  </span>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <a href="register.html">
-    Register
-  </a>
+  <meta
+    name="theme-color"
+    content="#087f7c"
+  >
 
-</div>
+  <title>
+    Patient History | Login
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="css/app.css"
+  >
+
+</head>
+
+
+<body class="login-page">
+
+
+  <!-- =====================================================
+       LOGIN WRAPPER
+  ====================================================== -->
+
+  <div class="login-wrapper">
+
+
+    <!-- ===================================================
+         LOGIN CARD
+    ==================================================== -->
+
+    <div class="login-card">
+
+
+      <!-- LOGO -->
+
+      <div class="brand-icon">
+        +
+      </div>
+
+
+      <!-- TITLE -->
+
+      <h1>
+        Patient History
+      </h1>
+
+
+      <p class="subtitle">
+        Clinical Patient Record System
+      </p>
+
+
+
+      <!-- =================================================
+           LOGIN FORM
+      ================================================== -->
+
+      <form id="loginForm">
+
+
+        <!-- EMAIL -->
+
+        <div class="form-group">
+
+          <label for="email">
+            Email
+          </label>
+
+          <input
+            type="email"
+            id="email"
+            required
+            autocomplete="username"
+            placeholder="Enter your email"
+          >
+
+        </div>
+
+
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+
+          <label for="password">
+            Password
+          </label>
+
+          <input
+            type="password"
+            id="password"
+            required
+            autocomplete="current-password"
+            placeholder="Enter your password"
+          >
+
+        </div>
+
+
+
+        <!-- LOGIN BUTTON -->
+
+        <button
+          type="submit"
+          id="loginBtn"
+          class="primary-btn"
+        >
+          Login
+        </button>
+
+
+
+        <!-- LOGIN MESSAGE -->
+
+        <div
+          id="loginMessage"
+          class="message"
+          aria-live="polite"
+        ></div>
+
+
+
+        <!-- =================================================
+             REGISTER
+        ================================================== -->
+
+        <p
+          style="
+            text-align:center;
+            margin:20px 0 0;
+            font-size:14px;
+            color:#667085;
+          "
+        >
+
+          Don't have an account?
+
+          <a
+            href="register.html"
+            style="
+              color:#087f7c;
+              font-weight:700;
+              text-decoration:none;
+            "
+          >
+            Register
+          </a>
+
+        </p>
+
+
+      </form>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =====================================================
+       FIREBASE LOGIN
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="js/auth.js"
+  ></script>
+
+
+</body>
+
+</html>
+```
