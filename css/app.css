@@ -817,3 +817,34 @@ textarea {
   }
 
 }
+
+/* =========================================================
+   LOGIN REGISTER LINK
+========================================================= */
+
+.register-link {
+  margin-top: 22px;
+  padding-top: 18px;
+
+  border-top: 1px solid #eaecf0;
+
+  text-align: center;
+
+  font-size: 13px;
+
+  color: #667085;
+}
+
+.register-link a {
+  margin-left: 4px;
+
+  color: #087f7c;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
