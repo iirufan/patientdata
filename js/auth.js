@@ -1,819 +1,338 @@
-* {
-  box-sizing: border-box;
-}
+import { auth, db } from "./firebase-config.js";
 
-body {
-  margin: 0;
-  font-family:
-    Inter,
-    Arial,
-    Helvetica,
-    sans-serif;
+import {
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
-  background: #f5f8fa;
-  color: #1d2939;
-}
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 
-/* LOGIN */
+const form = document.getElementById("loginForm");
+const message = document.getElementById("loginMessage");
+const loginBtn = document.getElementById("loginBtn");
 
-.login-page {
-  min-height: 100vh;
+let checkingLogin = true;
 
-  background:
-    linear-gradient(
-      135deg,
-      #e8f8f7,
-      #f7fbfb
+
+/* =========================================================
+   CHECK EXISTING LOGIN
+========================================================= */
+
+onAuthStateChanged(auth, async user => {
+
+  if (!checkingLogin) {
+    return;
+  }
+
+  checkingLogin = false;
+
+  if (!user) {
+    return;
+  }
+
+  try {
+
+    const profileRef = doc(
+      db,
+      "users",
+      user.uid
     );
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    const profileSnap = await getDoc(profileRef);
 
-.login-wrapper {
-  width: 100%;
-  padding: 25px;
-}
+    if (!profileSnap.exists()) {
 
-.login-card {
-  width: 100%;
-  max-width: 420px;
+      await signOut(auth);
 
-  margin: auto;
+      showMessage(
+        "Your user profile could not be found.",
+        false
+      );
 
-  background: white;
+      return;
+    }
 
-  padding: 38px;
+    const profile = profileSnap.data();
 
-  border-radius: 22px;
 
-  box-shadow:
-    0 15px 45px
-    rgba(0,0,0,.09);
-}
+    /* Active approved user */
 
-.login-card h1 {
-  margin: 15px 0 5px;
-  text-align: center;
-}
+    if (profile.active === true) {
 
-.subtitle {
-  text-align: center;
-  color: #667085;
-  margin-bottom: 30px;
-}
+      window.location.replace(
+        "dashboard.html"
+      );
 
-.brand-icon {
-  width: 65px;
-  height: 65px;
+      return;
+    }
 
-  margin: auto;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    /* Pending user */
 
-  border-radius: 18px;
+    if (
+      profile.status === "pending" ||
+      profile.active === false
+    ) {
 
-  background:
-    linear-gradient(
-      135deg,
-      #0fa8a0,
-      #087b79
+      await signOut(auth);
+
+      showMessage(
+        "Your account is waiting for administrator approval.",
+        false
+      );
+
+      return;
+    }
+
+
+    await signOut(auth);
+
+    showMessage(
+      "Your account is not active.",
+      false
     );
 
-  color: white;
+  } catch (error) {
 
-  font-size: 40px;
-  font-weight: 300;
-}
-
-
-/* FORM */
-
-.form-group {
-  margin-bottom: 18px;
-}
-
-label {
-  display: block;
-
-  font-size: 13px;
-
-  font-weight: 600;
-
-  margin-bottom: 7px;
-}
-
-input,
-select,
-textarea {
-
-  width: 100%;
-
-  padding: 12px 13px;
-
-  border:
-    1px solid #d0d5dd;
-
-  border-radius: 9px;
-
-  font-size: 14px;
-
-  outline: none;
-
-  background: white;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-
-  border-color: #0d9488;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(13,148,136,.10);
-}
-
-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-
-/* BUTTONS */
-
-.primary-btn {
-
-  width: 100%;
-
-  border: 0;
-
-  padding: 13px 18px;
-
-  border-radius: 9px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #0f9f96,
-      #087a78
+    console.error(
+      "Existing login check:",
+      error
     );
 
-  color: white;
+    await signOut(auth);
 
-  font-weight: 600;
+  }
 
-  cursor: pointer;
-
-  font-size: 14px;
-}
-
-.primary-btn:hover {
-  opacity: .92;
-}
-
-.secondary-btn {
-
-  border: 1px solid #d0d5dd;
-
-  background: white;
-
-  padding: 10px 16px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-}
+});
 
 
-/* NAVIGATION */
+/* =========================================================
+   LOGIN
+========================================================= */
 
-.navbar {
+form?.addEventListener("submit", async event => {
 
-  height: 65px;
+  event.preventDefault();
 
-  background:
-    linear-gradient(
-      90deg,
-      #087f7c,
-      #0f9f96
+  const email = document
+    .getElementById("email")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const password = document
+    .getElementById("password")
+    .value;
+
+
+  if (!email || !password) {
+
+    showMessage(
+      "Enter your email and password.",
+      false
     );
 
-  display: flex;
-
-  align-items: center;
-
-  justify-content:
-    space-between;
-
-  padding:
-    0 30px;
-
-  color: white;
-
-  box-shadow:
-    0 2px 12px
-    rgba(0,0,0,.08);
-}
-
-.nav-brand {
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-btn {
-
-  border:
-    1px solid
-    rgba(255,255,255,.35);
-
-  color: white;
-
-  background:
-    rgba(255,255,255,.1);
-
-  padding: 9px 15px;
-
-  border-radius: 8px;
-
-  cursor: pointer;
-}
+    return;
+  }
 
 
-/* MAIN */
+  try {
 
-.container {
+    setLoading(true);
 
-  width: 100%;
-
-  max-width: 1450px;
-
-  margin: auto;
-
-  padding: 28px;
-}
-
-.page-title {
-  margin-bottom: 25px;
-}
-
-.page-title h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-.page-title p {
-  color: #667085;
-}
+    showMessage(
+      "Signing in...",
+      true
+    );
 
 
-/* CARDS */
+    /* Firebase Authentication */
 
-.card {
+    const credential =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
-  background: white;
-
-  border:
-    1px solid #eaecf0;
-
-  border-radius: 14px;
-
-  padding: 22px;
-
-  box-shadow:
-    0 2px 8px
-    rgba(0,0,0,.03);
-}
+    const user = credential.user;
 
 
-/* GRID */
+    /* Get Firestore user profile */
 
-.grid-2 {
+    const profileRef = doc(
+      db,
+      "users",
+      user.uid
+    );
 
-  display: grid;
-
-  grid-template-columns:
-    repeat(2,1fr);
-
-  gap: 18px;
-}
-
-.grid-3 {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3,1fr);
-
-  gap: 18px;
-}
+    const profileSnap =
+      await getDoc(profileRef);
 
 
-/* MESSAGE */
+    if (!profileSnap.exists()) {
 
-.message {
-  margin-top: 15px;
-  text-align: center;
-  color: #b42318;
-}
+      await signOut(auth);
+
+      showMessage(
+        "Your user profile does not exist. Contact the administrator.",
+        false
+      );
+
+      return;
+    }
 
 
-/* MOBILE */
+    const profile =
+      profileSnap.data();
 
-@media(max-width:800px) {
 
-  .grid-2,
-  .grid-3 {
+    /* ===============================================
+       PENDING ACCOUNT
+    =============================================== */
 
-    grid-template-columns:
-      1fr;
+    if (
+      profile.active !== true ||
+      profile.status === "pending"
+    ) {
+
+      await signOut(auth);
+
+      showMessage(
+        "Your account is waiting for administrator approval.",
+        false
+      );
+
+      return;
+    }
+
+
+    /* ===============================================
+       APPROVED ACCOUNT
+    =============================================== */
+
+    showMessage(
+      "Login successful. Opening dashboard...",
+      true
+    );
+
+
+    window.location.replace(
+      "dashboard.html"
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Login error:",
+      error
+    );
+
+
+    let errorMessage =
+      "Unable to login. Check your email and password.";
+
+
+    if (
+      error.code === "auth/invalid-credential" ||
+      error.code === "auth/wrong-password" ||
+      error.code === "auth/user-not-found"
+    ) {
+
+      errorMessage =
+        "Incorrect email or password.";
+
+    }
+
+    else if (
+      error.code === "auth/invalid-email"
+    ) {
+
+      errorMessage =
+        "Enter a valid email address.";
+
+    }
+
+    else if (
+      error.code === "auth/too-many-requests"
+    ) {
+
+      errorMessage =
+        "Too many login attempts. Please try again later.";
+
+    }
+
+    else if (
+      error.code === "auth/network-request-failed"
+    ) {
+
+      errorMessage =
+        "Network error. Check your internet connection.";
+
+    }
+
+    else if (
+      error.code === "permission-denied"
+    ) {
+
+      errorMessage =
+        "Unable to verify your account permissions.";
+
+    }
+
+
+    showMessage(
+      errorMessage,
+      false
+    );
+
+  } finally {
+
+    setLoading(false);
 
   }
 
-  .navbar {
-    padding: 0 15px;
-  }
-
-  .container {
-    padding: 15px;
-  }
-
-}
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-.dashboard-summary {
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(3, minmax(0,1fr));
-
-  gap: 15px;
-
-  margin-bottom: 20px;
-
-}
-
-
-.summary-card {
-
-  background: #fff;
-
-  border: 1px solid #eaecf0;
-
-  border-radius: 14px;
-
-  padding: 18px;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 14px;
-
-  min-height: 90px;
-
-  box-shadow:
-    0 2px 8px
-    rgba(0,0,0,.03);
-
-}
-
-
-.summary-icon {
-
-  width: 48px;
-
-  height: 48px;
-
-  flex-shrink: 0;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 12px;
-
-  background: #e7f7f5;
-
-  font-size: 21px;
-
-}
-
-
-.summary-number {
-
-  font-size: 25px;
-
-  line-height: 1;
-
-  font-weight: 750;
-
-  color: #101828;
-
-}
-
-
-.summary-label {
-
-  margin-top: 6px;
-
-  color: #667085;
-
-  font-size: 12px;
-
-}
-
-
-.summary-action {
-
-  cursor: pointer;
-
-  transition:
-    transform .15s ease,
-    border-color .15s ease,
-    box-shadow .15s ease;
-
-}
-
-
-.summary-action:hover {
-
-  transform:
-    translateY(-1px);
-
-  border-color:
-    #0f9f96;
-
-  box-shadow:
-    0 5px 18px
-    rgba(0,0,0,.06);
-
-}
-
-
-.summary-action-title {
-
-  color: #087f7c;
-
-  font-size: 16px;
-
-  font-weight: 700;
-
-}
-
+});
 
 
 /* =========================================================
-   SEARCH
+   MESSAGE
 ========================================================= */
 
-.search-card {
+function showMessage(text, success) {
 
-  margin-bottom: 25px;
+  if (!message) {
+    return;
+  }
 
+  message.textContent = text;
+
+  message.style.color =
+    success
+      ? "#067647"
+      : "#b42318";
 }
-
-
-.search-heading {
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content:
-    space-between;
-
-  gap: 15px;
-
-  margin-bottom: 20px;
-
-}
-
-
-.search-heading h2 {
-
-  margin: 0;
-
-  font-size: 18px;
-
-}
-
-
-.search-heading p {
-
-  margin:
-    5px 0 0;
-
-  color: #667085;
-
-  font-size: 13px;
-
-}
-
-
-.dashboard-search-grid {
-
-  display: grid;
-
-  grid-template-columns:
-    minmax(280px,2fr)
-    minmax(150px,1fr)
-    minmax(150px,1fr)
-    100px;
-
-  gap: 14px;
-
-  align-items: end;
-
-}
-
-
-.search-input-wrapper {
-
-  position: relative;
-
-}
-
-
-.search-input-wrapper input {
-
-  padding-left: 39px;
-
-}
-
-
-.search-icon {
-
-  position: absolute;
-
-  left: 13px;
-
-  top: 50%;
-
-  transform:
-    translateY(-50%);
-
-  font-size: 14px;
-
-  pointer-events: none;
-
-}
-
-
-.dashboard-clear-btn {
-
-  width: 100%;
-
-  min-height: 42px;
-
-}
-
-
-.filter-note {
-
-  margin-top: 14px;
-
-  padding: 10px 12px;
-
-  border-radius: 8px;
-
-  background: #f8fafc;
-
-  color: #667085;
-
-  font-size: 11px;
-
-}
-
 
 
 /* =========================================================
-   RESULTS HEADING
+   LOGIN BUTTON STATE
 ========================================================= */
 
-.patient-results-heading {
+function setLoading(loading) {
 
-  display: flex;
-
-  align-items: center;
-
-  justify-content:
-    space-between;
-
-  gap: 15px;
-
-  margin-bottom: 12px;
-
-}
-
-
-.patient-results-heading h2 {
-
-  margin: 0;
-
-  font-size: 19px;
-
-}
-
-
-.patient-results-heading p {
-
-  margin:
-    4px 0 0;
-
-  color: #667085;
-
-  font-size: 12px;
-
-}
-
-
-
-/* =========================================================
-   LOADING
-========================================================= */
-
-.dashboard-loading {
-
-  min-height: 120px;
-
-  display: flex;
-
-  flex-direction: column;
-
-  align-items: center;
-
-  justify-content: center;
-
-  gap: 12px;
-
-  color: #667085;
-
-}
-
-
-.loading-spinner {
-
-  width: 28px;
-
-  height: 28px;
-
-  border:
-    3px solid #e4e7ec;
-
-  border-top-color:
-    #0f9f96;
-
-  border-radius:
-    50%;
-
-  animation:
-    dashboardSpin .8s linear infinite;
-
-}
-
-
-@keyframes dashboardSpin {
-
-  to {
-
-    transform:
-      rotate(360deg);
-
+  if (!loginBtn) {
+    return;
   }
 
-}
+  loginBtn.disabled = loading;
 
-
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media(max-width:1000px) {
-
-  .dashboard-search-grid {
-
-    grid-template-columns:
-      1fr 1fr;
-
-  }
-
-
-  .search-main {
-
-    grid-column:
-      1 / -1;
-
-  }
-
-}
-
-
-@media(max-width:750px) {
-
-  .dashboard-summary {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .dashboard-search-grid {
-
-    grid-template-columns:
-      1fr;
-
-  }
-
-
-  .search-main {
-
-    grid-column:
-      auto;
-
-  }
-
-
-  .patient-results-heading {
-
-    align-items:
-      flex-start;
-
-  }
-
-}
-
-
-@media(max-width:600px) {
-
-  .navbar {
-
-    height: auto;
-
-    min-height: 65px;
-
-    flex-direction:
-      column;
-
-    align-items:
-      stretch;
-
-    gap: 10px;
-
-    padding:
-      12px 15px;
-
-  }
-
-
-  .nav-brand {
-
-    text-align:
-      center;
-
-  }
-
-
-  .nav-actions {
-
-    display: grid;
-
-    grid-template-columns:
-      1fr 1fr;
-
-  }
-
-
-  .nav-actions .nav-btn:first-child {
-
-    grid-column:
-      1 / -1;
-
-  }
-
-
-  .patient-results-heading {
-
-    flex-direction:
-      column;
-
-  }
-
+  loginBtn.textContent =
+    loading
+      ? "Signing in..."
+      : "Login";
 }
